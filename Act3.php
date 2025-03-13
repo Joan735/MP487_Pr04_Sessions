@@ -45,6 +45,8 @@ if (!isset($_SESSION["updName"]) && !isset($_SESSION["updIndex"])) {
     $error = "";
     $message = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // If the button "add" is pressed, the product will be added to the inventory. But if it already exists, it won't be added. 
+        // Also it is mandatory to add an amount greater than 0.
         if (isset($_POST["add"])) {
             $found = false;
             foreach ($_SESSION["list"] as $index1 => $item1) {
@@ -63,10 +65,12 @@ if (!isset($_SESSION["updName"]) && !isset($_SESSION["updIndex"])) {
                 $message = "Item addded properly.";
             }
         }
+        // A button that deletes the product when pressed.
         if (isset($_POST["delete"])) {
             unset($_SESSION["list"][$_POST["index"]]);
             $message = "Item deleted properly.";
         }
+        // A button that will send the information to the inputs, to be updated.
         if (isset($_POST["edit"])) {
             $name = $_POST["name"];
             $quantity = $_POST["quantity"];
@@ -75,6 +79,7 @@ if (!isset($_SESSION["updName"]) && !isset($_SESSION["updIndex"])) {
             $_SESSION["updName"] = $name;
             $_SESSION["updIndex"] = $index;
         }
+        // A button that works after the "edit" button is pressed and it will update the product if it exists, with the new information. 
         if (isset($_POST["update"])) {
             if ($_POST["name"] == "" || $_POST["quantity"] == "" || $_POST["price"] == "") {
                 $error = "You must fill all the fields to update a product.";
@@ -94,8 +99,7 @@ if (!isset($_SESSION["updName"]) && !isset($_SESSION["updIndex"])) {
                 }    
             }
         }
-    }
-
+    }  
     ?>
     <h1>Shopping list</h1>
     <form method="post">
@@ -136,6 +140,7 @@ if (!isset($_SESSION["updName"]) && !isset($_SESSION["updIndex"])) {
                         <td><?php echo $item["price"]; ?></td>
                         <td><?php echo ($item["quantity"] * $item["price"]); ?></td>
                         <?php
+                        // Save the total value to "value"
                         $_SESSION["value"] += ($item["quantity"] * $item["price"]);
                         ?>
                         <td>
@@ -154,9 +159,11 @@ if (!isset($_SESSION["updName"]) && !isset($_SESSION["updIndex"])) {
             <tr>
                 <td colspan="3" align="right"><strong>Total:</strong></td>
                 <?php
+                // Assign a value to "totalValue"
                 if (!isset($totalValue)) {
                     $totalValue = 0;
                 }
+                // Save the total value of the product to "totalValue" that will be displayed.
                 if (isset($_POST['total'])) {
                     $totalValue = $_SESSION["value"];
                 }
