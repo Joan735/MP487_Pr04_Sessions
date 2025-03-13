@@ -14,7 +14,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["position"] = $_POST["position"];
     $_SESSION["number"] = $_POST["number"];
-    if ($_POST["accion"] == "Modify") {
+    if ($_POST["action"] == "Modify") {
         switch ($_SESSION["position"]) {
             case '0':
                 $_SESSION["number1"] = $_SESSION["number"];
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
         }
     }
-    if ($_POST["accion"] == "Average") {
+    if ($_POST["action"] == "Average") {
         $average = (($_SESSION["number1"] + $_SESSION["number2"] + $_SESSION["number3"]) / 3);
         echo "Average: " . $average;
     }
@@ -47,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="value">New value:</label>
         <input type="number" name="number" value="0" required>
         <br><br>
-        <input type="submit" name="accion" value="Modify">
-        <input type="submit" name="accion" value="Average">
+        <input type="submit" name="action" value="Modify">
+        <input type="submit" name="action" value="Average">
         <input type="reset" value="Reset">
         <br><br>
     </form>
